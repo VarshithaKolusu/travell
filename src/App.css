@@ -1,0 +1,213 @@
+body {
+  margin: 0;
+  background: linear-gradient(120deg,#d7f3f8 0%,#c6ebfa 100%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.main-header {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  height: 70px;
+  box-shadow: 0 2px 8px #a6dde320;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+}
+.logo-area {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #2189b9;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: default;
+}
+.logo-icon { font-size: 2rem; }
+.main-header nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.main-header nav a {
+  text-decoration: none;
+  color: #4b4b7c;
+  font-weight: 600;
+  padding: 8px 12px;
+  transition: color 0.3s;
+}
+.main-header nav a:hover {
+  color: #16999f;
+}
+.nav-btn {
+  background: #22bcbf;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 9px 25px;
+  font-size: 1.08rem;
+  margin-left: 8px;
+  cursor: pointer;
+  box-shadow: 0 3px 12px #2de0de70;
+  transition: background 0.25s;
+}
+.nav-btn:hover { background: #16999f; }
+
+.home-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 80px 6vw;
+  min-height: 70vh;
+  max-width: 1200px;
+  margin: auto;
+}
+.hero-left { flex: 1; }
+.hero-left h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #114d67;
+  margin-bottom: 20px;
+}
+.hero-left p {
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+  color: #20789a;
+}
+.cta-btn {
+  background: #16999f;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 14px 40px;
+  margin-right: 15px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 15px #18a8a959;
+  transition: background 0.25s;
+}
+.cta-btn.outline {
+  background: transparent;
+  color: #16999f;
+  border: 2px solid #16999f;
+}
+.cta-btn:hover {
+  background: #12b3b6;
+  box-shadow: 0 5px 20px #12b3b6cc;
+}
+.features-list {
+  margin-top: 30px;
+  color: #11ad78;
+  font-size: 1.1rem;
+  padding-left: 20px;
+}
+.features-list li {
+  margin: 9px 0;
+}
+
+.hero-right {
+  flex: 1;
+  text-align: right;
+}
+.hero-right img {
+  max-width: 400px;
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 5px 25px #16a7a73b;
+}
+
+.page-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 30px #16999f1c;
+  padding: 38px 42px 28px 42px;
+  margin: 38px auto 48px auto;
+  max-width: 700px;
+  min-height: 400px;
+}
+
+.section-title {
+  color: #16999f;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 22px;
+}
+
+button.button {
+  background: #16999f;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 11px 30px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px #12b3b666;
+  transition: background 0.3s;
+}
+button.button:hover {
+  background: #12b3b6;
+}
+label.form-label {
+  display: block;
+  margin: 12px 0 7px 0;
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #225a73;
+}
+
+input[type="text"], input[type="password"], input[type="number"], select {
+  padding: 9px;
+  margin-bottom: 14px;
+  border-radius: 6px;
+  border: 1.7px solid #b2dbf2;
+  width: 100%;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+hr {
+  margin: 30px 0 32px 0;
+  border: 1px solid #b2dbf2;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(40,62,81,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.modal-inner {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 36px #13b3b513;
+  padding: 40px 48px 28px 48px;
+  min-width: 340px;
+  min-height: 320px;
+  position: relative;
+  animation: fadeIn .3s;
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: #18adac;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

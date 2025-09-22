@@ -1,0 +1,5 @@
+.hero-right img {
+  width: 100%;
+  max-width: 444px; /* bigger image */
+  height: auto;
+}
