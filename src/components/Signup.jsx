@@ -1,4 +1,7 @@
+// Signup.js
+
 import React, { useState } from "react";
+import { registerUser } from "../api/api";
 
 export default function Signup({ setRole }) {
   const [signupRole, setSignupRole] = useState("");
@@ -7,7 +10,7 @@ export default function Signup({ setRole }) {
   const [confirmPwd, setConfirmPwd] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPwd) {
       setError("Passwords do not match");
@@ -17,8 +20,18 @@ export default function Signup({ setRole }) {
       setError("Please fill all fields");
       return;
     }
-    setError("");
-    setRole(signupRole, { name: username });
+
+    try {
+      setError("");
+      await registerUser({ username, password, role: signupRole });
+      setRole(signupRole, { name: username });
+    } catch (err) {
+      if (err.response && err.response.data) {
+        setError(err.response.data);  // Show backend error message
+      } else {
+        setError("Registration failed. Try a different username.");
+      }
+    }
   };
 
   return (
@@ -27,13 +40,10 @@ export default function Signup({ setRole }) {
       <form onSubmit={handleSubmit}>
         <label className="form-label">Username</label>
         <input type="text" required value={username} onChange={e => setUsername(e.target.value)} />
-
         <label className="form-label">Password</label>
         <input type="password" required value={password} onChange={e => setPassword(e.target.value)} />
-
         <label className="form-label">Confirm Password</label>
         <input type="password" required value={confirmPwd} onChange={e => setConfirmPwd(e.target.value)} />
-
         <label className="form-label">Sign Up As</label>
         <select required value={signupRole} onChange={e => setSignupRole(e.target.value)}>
           <option value="">Select Role</option>

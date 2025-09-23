@@ -1,36 +1,46 @@
 import React, { useState } from "react";
+import { addRestaurant } from "../api/api";
 
-export default function AddRestaurant({ onAdd }) {
+export default function AddRestaurant({ onAdd, user }) {
   const [restaurant, setRestaurant] = useState({
     name: "",
     tables: "",
     conditions: "",
-    price: ""
+    price: "",
   });
+  const [error, setError] = useState("");
 
-  const handleChange = e => setRestaurant({ ...restaurant, [e.target.name]: e.target.value });
+  const handleChange = (e) => setRestaurant({ ...restaurant, [e.target.name]: e.target.value });
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onAdd(restaurant);
-    setRestaurant({ name: "", tables: "", conditions: "", price: "" });
+    try {
+      const restaurantWithOwner = {
+        ...restaurant,
+        owner: { id: user.id },
+        tables: parseInt(restaurant.tables, 10),
+      };
+      const response = await addRestaurant(restaurantWithOwner);
+      onAdd(response.data);
+      setRestaurant({ name: "", tables: "", conditions: "", price: "" });
+      setError("");
+    } catch (err) {
+      setError("Failed to add restaurant.");
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <label className="form-label">Restaurant Name</label>
+      <label>Restaurant Name</label>
       <input name="name" type="text" required value={restaurant.name} onChange={handleChange} />
-
-      <label className="form-label">Tables Available</label>
+      <label>Tables Available</label>
       <input name="tables" type="number" required value={restaurant.tables} onChange={handleChange} />
-
-      <label className="form-label">Booking Conditions</label>
+      <label>Booking Conditions</label>
       <input name="conditions" type="text" value={restaurant.conditions} onChange={handleChange} />
-
-      <label className="form-label">Pricing (per table)</label>
+      <label>Pricing (per table)</label>
       <input name="price" type="text" required value={restaurant.price} onChange={handleChange} />
-
-      <button className="button" type="submit">Add Restaurant</button>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <button type="submit">Add Restaurant</button>
     </form>
   );
 }

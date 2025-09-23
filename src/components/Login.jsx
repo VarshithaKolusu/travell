@@ -1,31 +1,42 @@
+// Login.js
+
 import React, { useState } from "react";
+import { loginUser } from "../api/api";
 
 export default function Login({ setRole }) {
-  const [role, setLoginRole] = useState("");
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setLoginRole] = useState(""); // Only if backend expects role
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (role && username) {
-      setRole(role, { name: username });
+  console.log("Login Data:", { username, password, role }); // log the exact data
+  try {
+    await loginUser({ username, password, role });
+    setRole(role, { name: username });
+    setError("");
+  } catch (err) {
+    if (err.response && err.response.data) {
+      setError(err.response.data);
+    } else {
+      setError("Login failed. Please check credentials.");
     }
+  }
   };
 
   return (
-    <div>
-      <h2 style={{ textAlign: "center" }}>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <label className="form-label">Username</label>
-        <input type="text" required value={username} onChange={e => setUsername(e.target.value)} />
-
-        <label className="form-label">Login As</label>
-        <select required value={role} onChange={e => setLoginRole(e.target.value)}>
-          <option value="">Select Role</option>
-          <option value="traveler">Traveler</option>
-          <option value="provider">Service Provider</option>
-        </select>
-        <button className="button" type="submit">Login</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input type="text" required value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
+      <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
+      <select required value={role} onChange={e => setLoginRole(e.target.value)}>
+        <option value="">Select Role</option>
+        <option value="traveler">Traveler</option>
+        <option value="provider">Service Provider</option>
+      </select>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <button type="submit">Login</button>
+    </form>
   );
 }

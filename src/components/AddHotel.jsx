@@ -1,40 +1,49 @@
 import React, { useState } from "react";
+import { addHotel } from "../api/api";
+const handleAddHotel = (newHotel) => setHotels(prev => [...prev, newHotel]);
 
-export default function AddHotel({ onAdd }) {
+export default function AddHotel({ user, onAdd }) {
   const [hotel, setHotel] = useState({
     name: "",
     roomType: "",
-    available: "",
+    availableRooms: "",
     eligibility: "",
     price: ""
   });
+  const [error, setError] = useState("");
 
-  const handleChange = e => setHotel({ ...hotel, [e.target.name]: e.target.value });
+  const handleChange = e => setHotel({...hotel, [e.target.name]: e.target.value });
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onAdd(hotel);
-    setHotel({ name: "", roomType: "", available: "", eligibility: "", price: "" });
+    try {
+      const hotelWithOwner = {
+        ...hotel,
+        owner: { id: user.id },
+        availableRooms: parseInt(hotel.availableRooms, 10)
+      };
+      const response = await addHotel(hotelWithOwner);
+      onAdd(response.data);
+      setHotel({ name: "", roomType: "", availableRooms: "", eligibility: "", price: "" });
+      setError("");
+    } catch (err) {
+      if (err.response) {
+        setError(err.response.data);
+      } else {
+        setError("Failed to add hotel. Try again.");
+      }
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <label className="form-label">Hotel Name</label>
-      <input name="name" type="text" required value={hotel.name} onChange={handleChange} />
-
-      <label className="form-label">Room Type</label>
-      <input name="roomType" type="text" required value={hotel.roomType} onChange={handleChange} />
-
-      <label className="form-label">Available Rooms</label>
-      <input name="available" type="number" required value={hotel.available} onChange={handleChange} />
-
-      <label className="form-label">Eligibility/Conditions</label>
-      <input name="eligibility" type="text" value={hotel.eligibility} onChange={handleChange} />
-
-      <label className="form-label">Pricing (per night)</label>
-      <input name="price" type="text" required value={hotel.price} onChange={handleChange} />
-
-      <button className="button" type="submit">Add Hotel</button>
+      <input name="name" type="text" placeholder="Hotel Name" value={hotel.name} onChange={handleChange} required />
+      <input name="roomType" type="text" placeholder="Room Type" value={hotel.roomType} onChange={handleChange} required />
+      <input name="availableRooms" type="number" placeholder="Available Rooms" value={hotel.availableRooms} onChange={handleChange} required />
+      <input name="eligibility" type="text" placeholder="Eligibility / Conditions" value={hotel.eligibility} onChange={handleChange} />
+      <input name="price" type="text" placeholder="Price per night" value={hotel.price} onChange={handleChange} required />
+      {error && <p style={{color: 'red'}}>{error}</p>}
+      <button type="submit">Add Hotel</button>
     </form>
   );
 }
