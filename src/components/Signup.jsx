@@ -1,5 +1,3 @@
-// Signup.js
-
 import React, { useState } from "react";
 import { registerUser } from "../api/api";
 
@@ -12,6 +10,7 @@ export default function Signup({ setRole }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPwd) {
       setError("Passwords do not match");
       return;
@@ -27,7 +26,7 @@ export default function Signup({ setRole }) {
       setRole(signupRole, { name: username });
     } catch (err) {
       if (err.response && err.response.data) {
-        setError(err.response.data);  // Show backend error message
+        setError(err.response.data);
       } else {
         setError("Registration failed. Try a different username.");
       }
@@ -39,19 +38,40 @@ export default function Signup({ setRole }) {
       <h2 style={{ textAlign: "center" }}>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <label className="form-label">Username</label>
-        <input type="text" required value={username} onChange={e => setUsername(e.target.value)} />
+        <input
+          type="text"
+          required
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
         <label className="form-label">Password</label>
-        <input type="password" required value={password} onChange={e => setPassword(e.target.value)} />
+        <input
+          type="password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <label className="form-label">Confirm Password</label>
-        <input type="password" required value={confirmPwd} onChange={e => setConfirmPwd(e.target.value)} />
+        <input
+          type="password"
+          required
+          value={confirmPwd}
+          onChange={(e) => setConfirmPwd(e.target.value)}
+        />
         <label className="form-label">Sign Up As</label>
-        <select required value={signupRole} onChange={e => setSignupRole(e.target.value)}>
+        <select
+          required
+          value={signupRole}
+          onChange={(e) => setSignupRole(e.target.value)}
+        >
           <option value="">Select Role</option>
           <option value="traveler">Traveler</option>
           <option value="provider">Service Provider</option>
         </select>
         {error && <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>}
-        <button className="button" type="submit">Sign Up</button>
+        <button className="button" type="submit">
+          Sign Up
+        </button>
       </form>
     </div>
   );

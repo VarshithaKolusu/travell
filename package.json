@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://VarshithaKolusu.github.io/travel2",
+  "homepage": "https://VarshithaKolusu.github.io/travelly",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
